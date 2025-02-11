@@ -5,11 +5,11 @@ import LeftSidebar from '../assets/components/shared/HomeSidebar/LeftSidebar'
 
 const MainLayout = () => {
   return (
-    <div>
+    <div className='min-h-screen'>
         <div className=' sticky  top-0'>
             <HomeNavbar></HomeNavbar>
         </div>
-        <div className='grid md:grid-cols-12 min-h-screen'>
+        <div className='grid md:grid-cols-12 '>
             <div className='hidden md:block md:col-span-3'>
                 <LeftSidebar></LeftSidebar>    
             </div>

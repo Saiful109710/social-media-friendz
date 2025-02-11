@@ -1,40 +1,57 @@
-import React from "react";
-import User from "../../assets/components/Messenger/User";
-import OppsiteUser from "../../assets/components/Messenger/OppsiteUser";
+import { useState } from "react";
+import ConversationItems from "../../assets/components/Messenger/ConversationItems";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import SearchIcon from '@mui/icons-material/Search';
+import { IconButton } from "@mui/material";
+import { Outlet } from "react-router";
 
 const Messenger = () => {
+  const [click,setClick] = useState(false)
+  const [conversations, setConversation] = useState([
+    { name: "test#1", lastMessage: "Hello", timeStamps: "today" },
+    { name: "test#2", lastMessage: "Hello", timeStamps: "today" },
+    { name: "test#3", lastMessage: "Hello", timeStamps: "today" },
+    { name: "test#4", lastMessage: "Hello", timeStamps: "today" },
+    { name: "test#5", lastMessage: "Hello", timeStamps: "today" },
+  ]);
+
   return (
-    <div className="bg-slate-800  h-full flex ">
+    <div className="bg-slate-800  md:flex ">
       {/* Sidebar */}
-      <div className="w-[200px] bg-slate-900 flex flex-col items-center py-10 fixed h-full">
-        <div className="p-5 w-1/3 bg-slate-950 rounded-full text-white text-center">
-          <p>User</p>
+      <div className={`w-full md:w-[250px] bg-slate-900 flex flex-col items-center py-2 fixed h-full px-2 ${click?"hidden":"block"} md:block` }>
+        {/* Header */}
+        <div className="px-2 py-6 bg-slate-950 w-full rounded-xl text-white flex gap-2">
+          <IconButton><AccountCircleIcon color="primary" /></IconButton>
+          <div>
+            <IconButton><PersonAddAltIcon color="primary" /></IconButton>
+            <IconButton><GroupAddIcon color="primary" /></IconButton>
+            <IconButton><AddCircleIcon color="primary" /></IconButton>
+            <IconButton><DarkModeIcon color="primary" /></IconButton>
+          </div>
+        </div>
+
+        {/* Search */}
+        <div className="w-full p-1 rounded-xl bg-slate-950 flex items-center mt-2">
+          <IconButton><SearchIcon color="primary" /></IconButton>
+          <input type="text" placeholder="Search Conversation"
+            className="w-full rounded-lg bg-slate-950 text-white focus:outline-none border-none" />
+        </div>
+
+        {/* Conversations */}
+        <div className="p-2 space-y-2 grow overflow-y-auto bg-slate-950 w-full mt-2 rounded-xl text-white">
+          {conversations.map((conversation, index) => (
+            <ConversationItems key={index} conversation={conversation} setClick={setClick}/>
+          ))}
         </div>
       </div>
 
       {/* Chat Area */}
-      <div className="w-full ml-[200px] bg-gray-700 flex flex-col">
-        {/* Messages */}
-        <div className="p-5 text-white gap-5 flex flex-col overflow-y-auto flex-grow ">
-          <div className="flex justify-start">
-            <User />
-          </div>
-          <div className="flex justify-end">
-            <OppsiteUser />
-          </div>
-        </div>
-
-        {/* Message Input (Fixed Inside Container) */}
-        <div className="p-4 bg-gray-800 flex w-full sticky bottom-0">
-          <input
-            type="text"
-            placeholder="Type a message..."
-            className="w-full p-2 rounded-lg bg-gray-900 text-white focus:outline-none"
-          />
-          <button className="ml-2 p-2 bg-blue-500 text-white rounded-lg">
-            Send
-          </button>
-        </div>
+      <div className="w-full md:ml-[250px] bg-slate-800 flex flex-col h-[91vh] ">
+        <Outlet />
       </div>
     </div>
   );
